@@ -1,47 +1,38 @@
 import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
+import { Pool } from "pg";  // Import the Pool from pg
+import { config } from "dotenv";  // Import dotenv to load environment variables
+config();  // Load environment variables from .env file
 
-const pool = require('./db'); // Assuming db.js contains the Pool setup
-const { Pool } = require('pg');
-
+// Initialize the pool from db.js (assuming db.js exports a pool instance)
 const pool = new Pool({
-  connectionString: 'postgresql://countries_capitals_user:OCPIXt1FiQfHYJQWxUm8zALuWwmlcp92@dpg-cthvvc56l47c738d1vgg-a/countries_capitals',
-  ssl: { rejectUnauthorized: false }, // Required for Render
-});
-module.exports = pool;
-
-
-const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "Fag",
-  password: "asdf",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,  // Use DATABASE_URL from .env
+  ssl: { rejectUnauthorized: false },  // SSL for Render hosting
 });
 
 const app = express();
 const port = 3000;
 
-db.connect();
-
 let quiz = [];
-db.query("SELECT * FROM capitals", (err, res) => {
-  if (err) {
-    console.error("Error executing query", err.stack);
-  } else {
-    quiz = res.rows;
-  }
-  db.end();
-});
-
 let totalCorrect = 0;
+let currentQuestion = {};
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let currentQuestion = {};
+// Fetch quiz data from PostgreSQL on app start
+async function loadQuiz() {
+  try {
+    const result = await pool.query("SELECT * FROM capitals");  // Query the capitals table
+    quiz = result.rows;
+  } catch (err) {
+    console.error("Error executing query", err.stack);
+  }
+}
+
+// Load quiz data when the server starts
+loadQuiz();
 
 // GET home page
 app.get("/", async (req, res) => {
@@ -69,11 +60,13 @@ app.post("/submit", (req, res) => {
   });
 });
 
+// Function to load the next random question
 async function nextQuestion() {
   const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
   currentQuestion = randomCountry;
 }
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
