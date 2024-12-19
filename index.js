@@ -24,6 +24,7 @@ async function loadQuiz() {
     quiz = result.rows;
   } catch (err) {
     console.error("Error loading quiz data:", err.stack);
+    quiz = []; // Fallback to empty array if database query fails
   }
 }
 
@@ -73,19 +74,6 @@ app.post("/submit", (req, res) => {
     totalScore: totalCorrect,
   });
 });
-
-async function loadQuiz() {
-  try {
-    const result = await pool.query("SELECT * FROM capitals");
-    quiz = result.rows;
-  } catch (err) {
-    console.error("Error loading quiz data:", err.stack);
-    quiz = []; // Fallback to empty array if database query fails
-  }
-}
-
-
-
 
 // Start the server
 app.listen(port, () => {
