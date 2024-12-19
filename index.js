@@ -11,8 +11,25 @@ const db = new pg.Pool({
   port: 5432,
 });
 
+
+
 const app = express();
 const port = 3000;
+
+
+import dotenv from 'dotenv';
+import pkg from 'pg';
+
+dotenv.config(); // Load environment variables from .env file
+const { Pool } = pkg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // Use DATABASE_URL from .env
+  ssl: { rejectUnauthorized: false }, // Required for secure connections
+});
+
+export default pool; // Export the pool instance
+
 
 // Load quiz data
 let quiz = [];
