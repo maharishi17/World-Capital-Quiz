@@ -14,8 +14,9 @@
       <h3>
         Total Score:
         <span id="score">
-          <%= locals.totalScore ? totalScore : "0" %>
+          <%= totalScore || "0" %>
         </span>
+        
       </h3>
 
     </div>

@@ -1,50 +1,31 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import dotenv from 'dotenv';
 
-// Database configuration
-const db = new pg.Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "Fag",
-  password: "asdf",
-  port: 5432,
-});
-
-
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
 const port = 3000;
 
-
-import dotenv from 'dotenv';
-import pkg from 'pg';
-
-dotenv.config(); // Load environment variables from .env file
-const { Pool } = pkg;
-
+// Database configuration using Pool
+const { Pool } = pg;
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL, // Use DATABASE_URL from .env
   ssl: { rejectUnauthorized: false }, // Required for secure connections
 });
 
-export default pool; // Export the pool instance
-
-
 // Load quiz data
 let quiz = [];
 async function loadQuiz() {
   try {
-    const result = await db.query("SELECT * FROM capitals");
+    const result = await pool.query("SELECT * FROM capitals");
     quiz = result.rows;
   } catch (err) {
     console.error("Error loading quiz data:", err.stack);
   }
 }
-loadQuiz();
-
-let totalCorrect = 0;
-let currentQuestion = {};
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,14 +35,27 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+// Variables for tracking the score and current question
+let totalCorrect = 0;
+let currentQuestion = {};
+
+// Function to load the next random question
+function nextQuestion() {
+  if (quiz.length > 0) {
+    const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
+    currentQuestion = randomCountry;
+  }
+}
+
 // GET home page
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  await loadQuiz(); // Ensure quiz data is loaded before rendering
   totalCorrect = 0;
   nextQuestion();
   res.render("index.ejs", { question: currentQuestion });
 });
 
-// POST a new post
+// POST a new post (Submit answer)
 app.post("/submit", (req, res) => {
   const answer = req.body.answer?.trim();
   let isCorrect = false;
@@ -80,11 +74,18 @@ app.post("/submit", (req, res) => {
   });
 });
 
-// Function to load the next random question
-function nextQuestion() {
-  const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
-  currentQuestion = randomCountry;
+async function loadQuiz() {
+  try {
+    const result = await pool.query("SELECT * FROM capitals");
+    quiz = result.rows;
+  } catch (err) {
+    console.error("Error loading quiz data:", err.stack);
+    quiz = []; // Fallback to empty array if database query fails
+  }
 }
+
+
+
 
 // Start the server
 app.listen(port, () => {
