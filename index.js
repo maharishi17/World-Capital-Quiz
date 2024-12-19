@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from 'dotenv';
+const result = await pool.query('SELECT * FROM public.capitals');
 
 // Load environment variables from .env file
 dotenv.config();
