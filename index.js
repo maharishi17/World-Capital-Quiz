@@ -20,8 +20,8 @@ const pool = new Pool({
 let quiz = [];
 async function loadQuiz() {
   try {
-    const result = await pool.query("SELECT * FROM capitals");
-    quiz = result.rows;
+    const result = await pool.query("SELECT * FROM public.capitals"); // Query the capitals table
+    quiz = result.rows; // Store the results in the quiz array
   } catch (err) {
     console.error("Error loading quiz data:", err.stack);
     quiz = []; // Fallback to empty array if database query fails
@@ -37,7 +37,6 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 // Variables for tracking the score and current question
-let totalCorrect = 0;
 let currentQuestion = {};
 
 // Function to load the next random question
@@ -50,7 +49,7 @@ function nextQuestion() {
 
 app.get("/", async (req, res) => {
   await loadQuiz(); // Ensure quiz data is loaded before rendering
-  totalCorrect = 0; // Define a default value for totalScore
+  let totalCorrect = 0; // Define a default value for totalScore
   nextQuestion();
   res.render("index.ejs", { question: currentQuestion, totalScore: totalCorrect });
 });
