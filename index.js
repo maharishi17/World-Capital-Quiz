@@ -48,13 +48,13 @@ function nextQuestion() {
   }
 }
 
-// GET home page
 app.get("/", async (req, res) => {
   await loadQuiz(); // Ensure quiz data is loaded before rendering
-  totalCorrect = 0;
+  let totalScore = 0; // Define a default value for totalScore
   nextQuestion();
-  res.render("index.ejs", { question: currentQuestion });
+  res.render("index.ejs", { question: currentQuestion, totalScore });
 });
+
 
 // POST a new post (Submit answer)
 app.post("/submit", (req, res) => {
