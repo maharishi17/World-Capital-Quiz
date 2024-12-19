@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
-
 const app = express();
 const port = 3000;
 
@@ -16,15 +15,16 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }, // Required for secure connections
 });
 
+
 // Load quiz data
 let quiz = [];
 async function loadQuiz() {
   try {
-    const result = await pool.query("SELECT * FROM public.capitals"); // Query the capitals table
-    quiz = result.rows; // Store the results in the quiz array
+    const result = await pool.query("SELECT * FROM public.capitals"); 
+    quiz = result.rows; 
   } catch (err) {
     console.error("Error loading quiz data:", err.stack);
-    quiz = []; // Fallback to empty array if database query fails
+    quiz = []; 
   }
 }
 
@@ -46,10 +46,10 @@ function nextQuestion() {
     currentQuestion = randomCountry;
   }
 }
+let totalCorrect = 0; // Define a default value for totalScore
 
 app.get("/", async (req, res) => {
   await loadQuiz(); // Ensure quiz data is loaded before rendering
-  let totalCorrect = 0; // Define a default value for totalScore
   nextQuestion();
   res.render("index.ejs", { question: currentQuestion, totalScore: totalCorrect });
 });
