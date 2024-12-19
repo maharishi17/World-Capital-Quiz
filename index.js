@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import dotenv from 'dotenv';
-const result = await pool.query('SELECT * FROM public.capitals');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -51,11 +50,10 @@ function nextQuestion() {
 
 app.get("/", async (req, res) => {
   await loadQuiz(); // Ensure quiz data is loaded before rendering
-  let totalScore = 0; // Define a default value for totalScore
+  totalCorrect = 0; // Define a default value for totalScore
   nextQuestion();
-  res.render("index.ejs", { question: currentQuestion, totalScore });
+  res.render("index.ejs", { question: currentQuestion, totalScore: totalCorrect });
 });
-
 
 // POST a new post (Submit answer)
 app.post("/submit", (req, res) => {
