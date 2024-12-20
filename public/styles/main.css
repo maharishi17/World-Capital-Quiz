@@ -8,6 +8,9 @@ body {
   padding: 0;
   box-sizing: border-box;
   height: 100vh; /* Ensures the body takes up the full viewport height */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
 }
 
 /* Add a media query for smaller devices (mobile) */
@@ -17,11 +20,6 @@ body {
     background-position: center center; /* Ensure it remains centered */
   }
 }
-
-
-
-
-
 
 /* Container Styling */
 .container {
@@ -37,6 +35,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for a premium look */
   margin-bottom: 7%;
+  margin-top: 15%;
 }
 
 /* Input Field Styling */
@@ -109,10 +108,6 @@ button:focus {
   color: red;
 }
 
-
-
-
-
 h1 {
   text-align: center;
   font-size: 1.5rem; /* Adjust font size for smaller screens */
@@ -179,13 +174,11 @@ button:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, color 0.3s;
   cursor: pointer;
-
   position: absolute; /* Position relative to the nearest positioned ancestor */
   top: 50%; /* Center vertically */
   left: 50%; /* Center horizontally */
   transform: translate(-50%, -50%); /* Adjust position to truly center */
 }
-
 
 .restart-button:hover {
   background-color: hsl(162, 33%, 53%);
@@ -234,7 +227,6 @@ button:hover {
   }
 }
 
-
 /* Media Query for Smaller Screens */
 @media (max-width: 768px) {
   .container {
@@ -257,122 +249,6 @@ button:hover {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-.game-over {
-  background-color: #2d2d2d; /* Dark background for contrast */
-  color: #fff; /* White text color */
-  text-align: center;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  width: 80%;
-  max-width: 600px;
-  margin: 50px auto;
-  font-family: 'Montserrat', sans-serif;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.game-over p {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.game-over a.restart-button {
-  display: inline-block;
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  text-decoration: none;
-  background-color: #00adad; /* Vibrant color */
-  color: #fff;
-  border-radius: 25px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.game-over a.restart-button:hover {
-  background-color: #008c8c; /* Darker shade on hover */
-  transform: translateY(-3px); /* Slight lift effect */
-}
-
-.game-over a.restart-button:active {
-  transform: translateY(1px); /* Button pressed effect */
-}
-
-.game-over {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.5s forwards;
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.score-feedback {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-  padding: 5px 10px;
-  border-radius: 5px;
-  width: 80%;
-  max-width: 400px;
-  margin: 20px auto;
-  transition: all 0.3s ease-in-out;
-}
-
-.score-feedback.green {
-  background-color: #76959b;
-  color: white;
-  border: 2px solid #218838;
-}
-
-.score-feedback.red {
-  background-color: #dc3545;
-  color: white;
-  border: 2px solid #c82333;
-}
-
-.score-feedback.green:hover,
-.score-feedback.red:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-
-
-
-
-
-
 /* Footer Styling */
 .footer {
   background-color: rgba(0, 0, 0, 0.5); /* Transparent black background */
@@ -384,6 +260,8 @@ button:hover {
   font-size: 1rem; /* Font size for readability */
   box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   backdrop-filter: blur(5px); /* Adds a blur effect for a premium feel */
+  position: relative;
+  margin-top: auto; /* Ensures footer sticks to the bottom */
 }
 
 .footer-content {
@@ -396,43 +274,58 @@ button:hover {
 
 .footer p {
   margin: 5px 0;
-  line-height: 1.6;
-  font-weight: 500; /* Slightly bold for readability */
-  letter-spacing: 0.5px; /* Subtle spacing for elegance */
 }
 
 .footer a {
-  color: rgba(0, 255, 255, 0.8); /* Dimmed teal color for links */
+  color: #00adad; /* Accent color for links */
   text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
 }
 
 .footer a:hover {
-  color: rgba(255, 255, 255, 1); /* Bright white on hover */
+  text-decoration: underline; /* Underline links on hover */
 }
 
-/* Ensure footer sticks to the bottom when content is short */
-html {
-  min-height: 100%;
-  position: relative;
-}
-
-body {
+.footer .footer-links {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Full viewport height */
-  margin: 0;
+  justify-content: center;
+  gap: 20px;
 }
 
-#app {
-  flex: 1; /* Push footer to the bottom */
+.footer .footer-links a {
+  font-size: 1rem;
 }
 
-/* Responsiveness */
-@media (max-width: 600px) {
-  .footer {
-    font-size: 0.85rem; /* Smaller font for mobile devices */
-    padding: 15px 5px;
-  }
+
+.game-over {
+  background-color: #1f1f46cc; /* Red background with transparency */
+  color: white; /* White text color */
+  padding: 20px;
+  border-radius: 10px; /* Rounded corners for a modern look */
+  text-align: center;
+  font-size: 1.2rem; /* Larger font for better visibility */
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  margin-top: 20px;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.game-over:hover {
+  background-color: #1f1f46cc; /* Slightly darker background on hover */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.game-over button {
+  background-color: #00adad; /* Matching button color */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.game-over button:hover {
+  background-color: #007f7f; /* Darker button color on hover */
 }
