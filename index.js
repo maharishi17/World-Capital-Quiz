@@ -9,22 +9,36 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
+app.use(express.static("public"));
+
 // Database configuration using Pool
 const { Pool } = pg;
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL, // Use DATABASE_URL from .env
-  ssl: { rejectUnauthorized: false }, // Required for secure connections
+  ssl: false, // Disable SSL for local development
 });
+
+// Variables for tracking the score and current question
+let totalCorrect = 0;
+let currentQuestion = {};
 
 // Load quiz data
 let quiz = [];
 async function loadQuiz() {
   try {
-    const result = await pool.query("SELECT * FROM public.capitals"); // Query the capitals table
-    quiz = result.rows; // Store the results in the quiz array
+    const result = await pool.query("SELECT * FROM capitals");
+    quiz = result.rows;
   } catch (err) {
     console.error("Error loading quiz data:", err.stack);
     quiz = []; // Fallback to empty array if database query fails
+  }
+}
+
+// Function to load the next random question
+function nextQuestion() {
+  if (quiz.length > 0) {
+    const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
+    currentQuestion = randomCountry;
   }
 }
 
@@ -36,32 +50,25 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-// Variables for tracking the score and current question
-let currentQuestion = {};
-
-// Function to load the next random question
-function nextQuestion() {
-  if (quiz.length > 0) {
-    const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
-    currentQuestion = randomCountry;
-  }
-}
-
+// Main route
 app.get("/", async (req, res) => {
   await loadQuiz(); // Ensure quiz data is loaded before rendering
-  let totalCorrect = 0; // Define a default value for totalScore
+  totalCorrect = 0; // Reset score for new session
   nextQuestion();
   res.render("index.ejs", { question: currentQuestion, totalScore: totalCorrect });
 });
 
-// POST a new post (Submit answer)
+// POST route to submit the answer
 app.post("/submit", (req, res) => {
   const answer = req.body.answer?.trim();
   let isCorrect = false;
 
-  if (currentQuestion.capital.toLowerCase() === answer?.toLowerCase()) {
-    totalCorrect++;
-    isCorrect = true;
+  // Check if currentQuestion.capital exists before calling toLowerCase
+  if (currentQuestion.capital && answer) {
+    if (currentQuestion.capital.toLowerCase() === answer.toLowerCase()) {
+      totalCorrect++;
+      isCorrect = true;
+    }
   }
 
   nextQuestion();
@@ -69,10 +76,15 @@ app.post("/submit", (req, res) => {
   res.render("index.ejs", {
     question: currentQuestion,
     wasCorrect: isCorrect,
-    totalScore: totalCorrect,
+    totalScore: totalCorrect, // Use the correct totalCorrect here
   });
 });
 
+
+
+
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

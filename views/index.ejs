@@ -11,41 +11,75 @@
 <body id="app">
   <form class="container" action="/submit" method="post">
     <div class="horizontal-container">
-      <h3>
-        Total Score:
-        <span id="score">
-          <%= totalScore || "0" %>
-        </span>
-        
-      </h3>
-
+      <% if (typeof wasCorrect !== 'undefined') { %>
+        <p id="feedback" class="score-feedback <%= wasCorrect ? 'green' : 'red' %>">
+          <%= wasCorrect ? "Yeah It's Correct" : "Oh No It's Wrong" %>
+        </p>
+      <% } %>
+      
     </div>
 
-    <h1 id="countryName">
-      <%=question.country %>
-    </h1>
+    <div class="question-container">
+      <h1 id="countryName" style="text-align: center;">
+        <%= question.country %>
+      </h1>
+    </div>
+
     <div class="answer-container">
-      <input type="text" name="answer" id="userInput" placeholder="Enter the capital" autofocus autocomplete="off">
-
+      <input type="text" name="answer" id="userInput" placeholder="Enter the capital of this country" autofocus autocomplete="off">
     </div>
-    <button type="submit">SUBMIT<% if(locals.wasCorrect){ %>
+
+    <button type="submit">SUBMIT
+      <% if (locals.wasCorrect) { %>
         <span class="checkmark">✔</span>
-        <% } else if (locals.wasCorrect===false) { %>
-          <span class="cross" id="error">✖</span>
-          <% } %>
+      <% } else if (locals.wasCorrect === false) { %>
+        <span class="cross" id="error">✖</span>
+      <% } %>
     </button>
-
   </form>
+
+  <div>
+    <button id="playMusic" class="Ram">Play Music</button>
+    <audio id="musicPlayer" src="/music/done.mp3"></audio>
+  </div>
+
   <script>
+    document.getElementById("playMusic").onclick = function () {
+      const player = document.getElementById("musicPlayer");
+      player.paused
+        ? (player.play(), this.textContent = "Pause Music")
+        : (player.pause(), this.textContent = "Play Music");
+    };
+
     var wasCorrect = "<%= locals.wasCorrect %>";
-    console.log(wasCorrect)
+    console.log(wasCorrect);
+
     if (wasCorrect === "false") {
-      alert('Game over! Final best score: <%= locals.totalScore %>');
-      document.getElementById("app").innerHTML = '<a href="/" class="restart-button">Restart</a>'
+      // Immediately show the "Game Over" message and the restart link
+      document.getElementById("app").innerHTML = `
+        <div class="game-over">
+          Unfortunately, your answer to the last question was incorrect. Please try again. Click below to restart
+         
+        </div>
+        <div>
+           <a href="/" class="restart-button">Touch To Restart</a>
+          </div>
+      `;
     }
-
-
   </script>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2024 Capital City Quiz. All Rights Reserved.Designed with ❤️ by Maharishi</p>
+  </div>
+</footer>
+
+
+
+
+
+
+
 </body>
 
 </html>

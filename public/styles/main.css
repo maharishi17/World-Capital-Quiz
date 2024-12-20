@@ -1,30 +1,126 @@
 body {
-  background-image: url(../images/background.jpg);
+  background-image: url(../images/back.jpg);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; /* Ensures the image covers the entire screen */
+  background-position: center center; /* Centers the image */
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100vh; /* Ensures the body takes up the full viewport height */
 }
 
+/* Add a media query for smaller devices (mobile) */
+@media only screen and (max-width: 768px) {
+  body {
+    background-size: cover; /* Still cover the screen on mobile */
+    background-position: center center; /* Ensure it remains centered */
+  }
+}
+
+
+
+
+
+
+/* Container Styling */
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  max-width: 40%;
-  height: 300px;
-  margin: 15% auto;
+  width: 90%; /* Use a percentage for responsiveness */
+  max-width: 400px; /* Limit the maximum width for larger screens */
+  height: auto; /* Allow height to adjust automatically */
+  margin: 10% auto; /* Adjust margin for better positioning */
   padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding-top: 10px;
+  background-color: rgba(118, 149, 155, 0.8); /* Semi-transparent background */
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for a premium look */
+  margin-bottom: 7%;
 }
+
+/* Input Field Styling */
+.container input {
+  background-color: rgba(255, 255, 255, 0.8); /* Light background with transparency */
+  color: #333; /* Dark text for better visibility */
+  border: 2px solid #00adad; /* Accent border color */
+  border-radius: 8px; /* Rounded corners for a modern look */
+  padding: 12px 18px; /* Slightly larger padding for better comfort */
+  font-size: 16px;
+  width: 100%; /* Make the input field full width */
+  margin-bottom: 20px; /* Space between input and button */
+  transition: all 0.3s ease; /* Smooth transition for focus effects */
+  box-sizing: border-box; /* Ensure padding does not affect width */
+}
+
+.container input:focus {
+  background-color: rgba(255, 255, 255, 1); /* Slightly darker background on focus */
+  border-color: #007f7f; /* Darker border color on focus */
+  outline: none; /* Remove default outline */
+}
+
+.container input::placeholder {
+  color: #888; /* Lighter placeholder text */
+  font-style: italic; /* Add italic style for placeholder */
+}
+
+/* Button Styling */
+button {
+  background-color: #00adad; /* Matching button color */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #007f7f; /* Darker button color on hover */
+}
+
+button:focus {
+  outline: none; /* Remove focus outline */
+}
+
+/* Feedback Message Styling */
+#feedback {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.score-feedback {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.score-feedback.green {
+  color: green;
+}
+
+.score-feedback.red {
+  color: red;
+}
+
+
+
+
 
 h1 {
   text-align: center;
+  font-size: 1.5rem; /* Adjust font size for smaller screens */
 }
 
 h3 {
   margin: 0;
+  font-size: 1rem; /* Adjust font size */
 }
 
 .answer-container {
@@ -34,21 +130,22 @@ h3 {
 
 input {
   text-align: center;
-  width: 30%;
+  width: 80%; /* Use a percentage for better responsiveness */
   margin: 10px auto;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 1rem; /* Adjust font size */
 }
 
 button {
   font-weight: 800;
   letter-spacing: 2px;
-  font-size: large;
+  font-size: 1rem; /* Adjust font size */
   display: block;
-  width: 100%;
+  width: 100%; /* Ensure buttons take full width of the container */
   padding: 10px;
-  background-color: #ffca00;
+  background-color: #8561a3;
   color: white;
   border: none;
   border-radius: 5px;
@@ -58,54 +155,284 @@ button {
 .horizontal-container {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Align items properly */
 }
 
 button:hover {
-  background-color: #ffd500;
+  background-color: hsl(49, 40%, 8%);
 }
 
 #result {
   text-align: center;
-  font-size: 24px;
-}
-
-.checkmark {
-  color: transparent;
-  animation: checkmark 0.5s ease;
-}
-
-.cross {
-  color: transparent;
-  animation: cross 0.5s ease;
-}
-
-@keyframes checkmark {
-  0% {
-    color: transparent;
-  }
-  100% {
-    color: green;
-  }
-}
-
-@keyframes cross {
-  0% {
-    color: transparent;
-  }
-  100% {
-    color: red;
-  }
+  font-size: 1.2rem; /* Adjust font size */
 }
 
 .restart-button {
   display: inline-block;
-  background-color: #fff;
+  background-color: hwb(40 36% 0%);
   color: #333;
-  padding: 15px 30px;
-  font-size: 18px;
+  padding: 15px 25px; /* Adjust padding */
+  font-size: 1rem; /* Adjust font size */
   text-align: center;
   text-decoration: none;
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+
+  position: absolute; /* Position relative to the nearest positioned ancestor */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust position to truly center */
+}
+
+
+.restart-button:hover {
+  background-color: hsl(162, 33%, 53%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Music Button Styling */
+.Ram {
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 1rem; /* Adjust font size */
+  display: block;
+  width: 60%; /* Adjust width for better alignment */
+  max-width: 200px; /* Set a max width for larger screens */
+  padding: 12px;
+  background-color: hsl(188, 46%, 22%); /* Premium background color */
+  color: white;
+  border: none;
+  border-radius: 30px; /* Round the edges for a more modern look */
+  cursor: pointer;
+  margin-top: 20px;
+  text-align: center;
+  margin-left: auto; /* Center-align the button */
+  margin-right: auto; /* Center-align the button */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.Ram:hover {
+  background-color: hsl(13, 6%, 27%); /* Darker background on hover */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+}
+
+/* Responsiveness for Mobile Devices */
+@media (max-width: 600px) {
+  .Ram {
+    width: 80%; /* Adjust width for smaller screens */
+    font-size: 1.2rem; /* Slightly larger font on mobile */
+  }
+}
+
+/* Responsiveness for Tablets and Larger Devices */
+@media (max-width: 1024px) {
+  .Ram {
+    width: 70%; /* Adjust width for medium-sized screens */
+    font-size: 1.1rem; /* Adjust font size for better readability */
+  }
+}
+
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+  .container {
+    margin: 5% auto; /* Reduce margin for smaller screens */
+    padding: 15px; /* Adjust padding */
+  }
+
+  h1 {
+    font-size: 1.2rem; /* Smaller font size */
+  }
+
+  button {
+    font-size: 0.9rem; /* Adjust button font size */
+    padding: 8px; /* Adjust padding */
+  }
+
+  input {
+    font-size: 0.9rem; /* Adjust input font size */
+    padding: 8px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+.game-over {
+  background-color: #2d2d2d; /* Dark background for contrast */
+  color: #fff; /* White text color */
+  text-align: center;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  width: 80%;
+  max-width: 600px;
+  margin: 50px auto;
+  font-family: 'Montserrat', sans-serif;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.game-over p {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.game-over a.restart-button {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  text-decoration: none;
+  background-color: #00adad; /* Vibrant color */
+  color: #fff;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.game-over a.restart-button:hover {
+  background-color: #008c8c; /* Darker shade on hover */
+  transform: translateY(-3px); /* Slight lift effect */
+}
+
+.game-over a.restart-button:active {
+  transform: translateY(1px); /* Button pressed effect */
+}
+
+.game-over {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.score-feedback {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.score-feedback.green {
+  background-color: #76959b;
+  color: white;
+  border: 2px solid #218838;
+}
+
+.score-feedback.red {
+  background-color: #dc3545;
+  color: white;
+  border: 2px solid #c82333;
+}
+
+.score-feedback.green:hover,
+.score-feedback.red:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+/* Footer Styling */
+.footer {
+  background-color: rgba(0, 0, 0, 0.5); /* Transparent black background */
+  color: rgba(255, 255, 255, 0.8); /* Dimmed white text for elegance */
+  text-align: center;
+  padding: 20px 10px;
+  margin-top: 30px; /* Space between content and footer */
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border on top */
+  font-size: 1rem; /* Font size for readability */
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  backdrop-filter: blur(5px); /* Adds a blur effect for a premium feel */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer p {
+  margin: 5px 0;
+  line-height: 1.6;
+  font-weight: 500; /* Slightly bold for readability */
+  letter-spacing: 0.5px; /* Subtle spacing for elegance */
+}
+
+.footer a {
+  color: rgba(0, 255, 255, 0.8); /* Dimmed teal color for links */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: rgba(255, 255, 255, 1); /* Bright white on hover */
+}
+
+/* Ensure footer sticks to the bottom when content is short */
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+  margin: 0;
+}
+
+#app {
+  flex: 1; /* Push footer to the bottom */
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  .footer {
+    font-size: 0.85rem; /* Smaller font for mobile devices */
+    padding: 15px 5px;
+  }
 }
