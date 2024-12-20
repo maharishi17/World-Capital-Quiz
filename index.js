@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
-
 const app = express();
 const port = 3000;
 
@@ -18,19 +17,27 @@ const pool = new Pool({
   ssl: false, // Disable SSL for local development
 });
 
+<<<<<<< HEAD
 // Variables for tracking the score and current question
 let totalCorrect = 0;
 let currentQuestion = {};
+=======
+>>>>>>> c8df287834e9545cef2257a0eee902f8419c2d03
 
 // Load quiz data
 let quiz = [];
 async function loadQuiz() {
   try {
+<<<<<<< HEAD
     const result = await pool.query("SELECT * FROM capitals");
     quiz = result.rows;
+=======
+    const result = await pool.query("SELECT * FROM public.capitals"); 
+    quiz = result.rows; 
+>>>>>>> c8df287834e9545cef2257a0eee902f8419c2d03
   } catch (err) {
     console.error("Error loading quiz data:", err.stack);
-    quiz = []; // Fallback to empty array if database query fails
+    quiz = []; 
   }
 }
 
@@ -50,10 +57,27 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+<<<<<<< HEAD
 // Main route
 app.get("/", async (req, res) => {
   await loadQuiz(); // Ensure quiz data is loaded before rendering
   totalCorrect = 0; // Reset score for new session
+=======
+// Variables for tracking the score and current question
+let currentQuestion = {};
+
+// Function to load the next random question
+function nextQuestion() {
+  if (quiz.length > 0) {
+    const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
+    currentQuestion = randomCountry;
+  }
+}
+let totalCorrect = 0; // Define a default value for totalScore
+
+app.get("/", async (req, res) => {
+  await loadQuiz(); // Ensure quiz data is loaded before rendering
+>>>>>>> c8df287834e9545cef2257a0eee902f8419c2d03
   nextQuestion();
   res.render("index.ejs", { question: currentQuestion, totalScore: totalCorrect });
 });
