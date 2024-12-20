@@ -101,7 +101,7 @@ button:focus {
 }
 
 .score-feedback.green {
-  color: green;
+  color: hwb(270 11% 87%);
 }
 
 .score-feedback.red {
@@ -203,6 +203,7 @@ button:hover {
   text-align: center;
   margin-left: auto; /* Center-align the button */
   margin-right: auto; /* Center-align the button */
+  margin-bottom: 3%;
   transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
 
@@ -262,6 +263,7 @@ button:hover {
   backdrop-filter: blur(5px); /* Adds a blur effect for a premium feel */
   position: relative;
   margin-top: auto; /* Ensures footer sticks to the bottom */
+  margin-bottom: 5%;
 }
 
 .footer-content {
@@ -270,6 +272,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 .footer p {
